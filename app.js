@@ -1,6 +1,6 @@
 'use strict';
 /* Manaforge – MTG-Sammlung & Deckbau (Prototyp) */
-const APP_VERSION = '0.6.0';
+const APP_VERSION = '0.6.1';
 
 /* ============================================================
    Hilfsfunktionen
@@ -105,7 +105,7 @@ const DB = {
 };
 
 const Settings = {
-  defaults: { geminiKey: '', geminiModel: 'gemini-flash-latest', unlimitedBasics: true, limitedMaxCopies: 4, cardLang: 'scanned', lastBackup: 0, priceSource: 'cardmarket', lastCardRefresh: 0, controlsBottom: false, theme: 'default', deckTheme: true, fx: true, art: true, artPicks: {} },
+  defaults: { geminiKey: '', geminiModel: 'gemini-flash-latest', unlimitedBasics: true, limitedMaxCopies: 4, cardLang: 'scanned', lastBackup: 0, priceSource: 'cardmarket', lastCardRefresh: 0, controlsBottom: false, theme: 'default', deckTheme: true, fx: true, art: true, artPicks: {}, decoLevel: 'low' },
   data: {},
   load() {
     try { this.data = { ...this.defaults, ...JSON.parse(localStorage.getItem('manaforge-settings') || '{}') }; }
@@ -2635,6 +2635,8 @@ function renderSettings() {
       ${S.get('art') ? '<button class="btn sm block" id="sartnew">Anderes Artwork</button>' : ''}
       <div class="toggle" style="margin-top:6px"><div><b>Decks in ihren Farben</b><div class="small muted">Ein rotes Deck öffnet im roten Design, zweifarbige mit Schimmer der zweiten Farbe</div></div>
         <label class="switch"><input type="checkbox" id="sdeckth" ${S.get('deckTheme') ? 'checked' : ''}><span></span></label></div>
+      <div style="margin:10px 0 4px"><b>Verzierung</b><div class="small muted">Wie stark Ränder, Figuren und Partikel hervortreten</div></div>
+      <div class="seg" id="sdeco" style="margin-bottom:8px">${[['low', 'Dezent'], ['mid', 'Mittel'], ['high', 'Kräftig']].map(([v, l]) => `<button data-v="${v}" class="${(S.get('decoLevel') || 'low') === v ? 'on' : ''}">${l}</button>`).join('')}</div>
       <div class="toggle"><div><b>Hintergrund-Animationen</b><div class="small muted">Glühwürmchen, Funken, Blasen …</div></div>
         <label class="switch"><input type="checkbox" id="sfx" ${S.get('fx') ? 'checked' : ''}><span></span></label></div>
     </div>
@@ -2722,6 +2724,7 @@ function renderSettings() {
   $('#sart').onchange = e => { S.set('art', e.target.checked); applyArt(); renderSettings(); };
   $('#sartnew')?.addEventListener('click', async () => { const k = document.documentElement.dataset.theme; await pickArt(k, true); applyArt(); renderSettings(); });
   $('#sdeckth').onchange = e => S.set('deckTheme', e.target.checked);
+  $$('#sdeco [data-v]').forEach(b => b.onclick = () => { S.set('decoLevel', b.dataset.v); applyDisplay(); $$('#sdeco [data-v]').forEach(x => x.classList.toggle('on', x === b)); });
   $('#sfx').onchange = e => { S.set('fx', e.target.checked); applyDisplay(); };
   $('#sctlb').onchange = e => { S.set('controlsBottom', e.target.checked); applyDisplay(); };
   $('#slist').onclick = () => openListImport(null);
@@ -2889,6 +2892,7 @@ function applyDisplay() {
   const t = THEMES[Settings.get('theme')] ? Settings.get('theme') : 'default';
   document.documentElement.dataset.theme = t;
   document.body.classList.toggle('no-fx', !Settings.get('fx'));
+  document.body.dataset.deco = ['low', 'mid', 'high'].includes(Settings.get('decoLevel')) ? Settings.get('decoLevel') : 'low';
   spawnFx(THEMES[t].fx);
   const da = $('#decoAnim'), fr = $('#frame');
   if (da && fr) {

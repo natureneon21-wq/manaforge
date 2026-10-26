@@ -1,5 +1,5 @@
 /* Manaforge Service Worker – App offline verfügbar machen */
-const VERSION = 'manaforge-v0.6.0';
+const VERSION = 'manaforge-v0.6.1';
 const SHELL = ['./', './index.html', './app.js', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png',
   ...['default', 'green', 'blue', 'black', 'red', 'white', 'wu', 'ub', 'br', 'rg', 'gw', 'wb', 'ur', 'bg', 'rw', 'gu'].map(k => `./themes/${k}.json`)];
 

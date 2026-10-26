@@ -2,6 +2,12 @@
 
 All notable changes to Manaforge are documented here.
 
+## [0.6.1] – 2026-10-26
+### Added
+- Setting “Verzierung” (decoration strength): subtle (default), medium or strong
+### Changed
+- Theme decorations are much more subtle by default: edge details, framing pillars, particles and card-art backgrounds are toned down, the background texture is veiled and animations run more calmly, so the cards stay in focus
+
 ## [0.6.0] – 2026-10-23
 ### Changed
 - All 16 themes rebuilt on the Mushroom Forest layout: an arch or canopy from both top corners, framing pillars along both screen edges (behind the content), four animated edge details plus two flying companions, and a ground strip with corner groups that keeps the camera button free

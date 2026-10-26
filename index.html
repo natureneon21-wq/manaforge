@@ -204,6 +204,21 @@ body:has(.sheet-back) #frame{opacity:.35}
 @keyframes drise{0%{transform:translateY(0);opacity:0}20%{opacity:1}100%{transform:translateY(-22px);opacity:0}}
 @keyframes dripple{0%{transform:scale(.3);opacity:.9}100%{transform:scale(1.6);opacity:0}}
 @keyframes dfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+/* Stärke der Verzierung (Einstellung „Verzierung“: dezent / mittel / kräftig) */
+body{--dk:1;--fk:1;--xk:1;--tk:1}
+body[data-deco=mid]{--dk:.6;--fk:.55;--xk:.7;--tk:1.3;--veil:.25}
+body[data-deco=low]{--dk:.32;--fk:.28;--xk:.4;--tk:1.7;--veil:.55}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--bg);opacity:var(--veil,0)}
+#decoAnim{opacity:calc(.9 * var(--dk))}
+body.has-frame #decoAnim{opacity:calc(.95 * var(--dk))}
+body.scrolled #decoAnim{opacity:calc(.6 * var(--dk))}
+body:has(.sheet-back) #decoAnim{opacity:calc(.35 * var(--dk))}
+#frame{opacity:var(--fk)}
+body.scrolled #frame{opacity:calc(.8 * var(--fk))}
+body:has(.sheet-back) #frame{opacity:calc(.35 * var(--fk))}
+#fx{opacity:var(--xk)}
+#art{opacity:calc(var(--art-op) * (.55 + .45 * var(--dk)))}
+#decoAnim [class^=a-],#decoAnim [class*=' a-']{animation-duration:calc(var(--d,4s) * var(--tk))}
 
 /* THEMES-END */
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
